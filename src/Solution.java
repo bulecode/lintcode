@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Author: buleCode
  * Date: 2017/12/15
@@ -9,10 +12,12 @@ public class Solution {
         Solution s = new Solution();
         System.out.println(s.trailingZeros(105));
         s.digitCounts(0, 19);
+        System.out.println(s.isUgly(1));
+        System.out.println(s.nthSuperUglyNumber(6,new int[]{2,3,5}));
     }
 
 
-    //---------------------- trailingZeros start-----------------------------
+    //----------------------2# trailingZeros start-----------------------------
     /*
      * @param n: An integer
      * @return: An integer, denote the number of trailing zeros in n!
@@ -30,7 +35,7 @@ public class Solution {
     }
     //---------------------- trailingZeros start-----------------------------
 
-    //---------------------- digit-counts start -----------------------------
+    //----------------------3# digit-counts start -----------------------------
     /*
     计算数字k在0到n中的出现的次数，k可能是0~9的一个值
     例如n=12，k=1，在 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]，我们发现1出现了5次 (1, 10, 11, 12)
@@ -75,6 +80,130 @@ public class Solution {
 
     //---------------------- digit-counts end -----------------------------
 
+
+    //---------------------- 4# ugly-number-ii start -----------------------------
+//    设计一个算法，找出只含素因子2，3，5 的第 n 小的数。
+//    符合条件的数如：1, 2, 3, 4, 5, 6, 8, 9, 10, 12...
+
+    /*
+     * @param n: An integer
+     * @return: the nth prime number as description.
+     */
+    public int nthUglyNumber(int n) {
+        if (n <= 0) {
+            return -1;
+        }
+
+        List<Integer> ret = new LinkedList<>();
+        ret.add(1);
+
+        int l2 = 0;
+        int l3 = 0;
+        int l5 = 0;
+
+        while (ret.size() < n) {
+            Integer l2Num = ret.get(l2) * 2;
+            Integer l3Num = ret.get(l3) * 3;
+            Integer l5Num = ret.get(l5) * 5;
+
+            int min = Math.min(l2Num, Math.min(l3Num, l5Num));
+
+            if (ret.get(ret.size() - 1) != min) {
+                ret.add(min);
+            }
+            if (l2Num == min) {
+                l2++;
+            }
+            if (l3Num == min) {
+                l3++;
+            }
+            if (l5Num == min) {
+                l5++;
+            }
+
+        }
+
+        return ret.get(n - 1);
+    }
+
+
+    //---------------------- ugly-number-ii end -----------------------------
+
+    //----------------------#517 ugly-number start -----------------------------
+    /*
+     * @param num: An integer
+     * @return: true if num is an ugly number or false
+     */
+    public boolean isUgly(int num) {
+        if (num <= 0) {
+            return false;
+        }
+
+        while (num % 2 == 0) {
+            num /= 2;
+        }
+        while (num % 3 == 0) {
+            num /= 3;
+        }
+        while (num % 5 == 0) {
+            num /= 5;
+        }
+
+        return num == 1;
+    }
+    //----------------------#517 ugly-number end -----------------------------
+
+    //----------------------#518 super-ugly-number start -----------------------------
+    /**
+     * 写一个程序来找第 n 个超级丑数。
+     超级丑数的定义是正整数并且所有的质数因子都在所给定的一个大小为 k 的质数集合内。
+     比如给你 4 个质数的集合 [2, 7, 13, 19], 那么 [1, 2, 4, 7, 8, 13, 14, 16, 19, 26, 28, 32] 是前 12 个超级丑数。
+     注意事项
+
+     1 永远都是超级丑数不管给的质数集合是什么。
+     给你的质数集合已经按照升序排列。
+     0 < k ≤ 100, 0 < n ≤ 10^6, 0 < primes[i] < 1000
+     * */
+
+    /*
+     * @param n: a positive integer
+     * @param primes: the given prime list
+     * @return: the nth super ugly number
+     */
+    public int nthSuperUglyNumber(int n, int[] primes) {
+        if (n <= 0) {
+            return -1;
+        }
+
+        List<Integer> ret = new LinkedList<>();
+        ret.add(1);
+
+        int[] nPointer = new int[primes.length];
+
+        while (ret.size() < n) {
+            int[] temp = new int[primes.length];
+            int min = Integer.MAX_VALUE;
+            for (int i = 0; i < primes.length; i++) {
+                temp[i] = ret.get(nPointer[i]) * primes[i];
+                min = Math.min(min, temp[i]);
+            }
+
+            if (min != ret.get(ret.size() - 1)) {
+                ret.add(min);
+            }
+            for (int i = 0; i < primes.length; i++) {
+                if (temp[i] == min) {
+                    nPointer[i] = nPointer[i] + 1;
+                }
+            }
+
+        }
+
+        return ret.get(n - 1);
+    }
+
+
+    //----------------------#518 super-ugly-number end -----------------------------
 
 
 }
