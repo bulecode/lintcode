@@ -14,6 +14,7 @@ public class Solution {
         s.digitCounts(0, 19);
         System.out.println(s.isUgly(1));
         System.out.println(s.nthSuperUglyNumber(6,new int[]{2,3,5}));
+        System.out.println(s.kthLargestElement(3,new int[]{9,3,2,4,8}));
     }
 
 
@@ -210,6 +211,58 @@ public class Solution {
 
 
     //----------------------#518 super-ugly-number end -----------------------------
+
+    //---------------------- 5. kth-largest-element start-----------------------------
+
+    /*
+     * @param k : description of k
+     * @param nums : array of nums
+     * @return: description of return
+     */
+    public int kthLargestElement(int k, int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+
+        while (true) {
+            int pivotKeyPointer = oneQuickSort(start, end, nums);
+
+            int k1 = nums.length - pivotKeyPointer; // pivotKeyPointer指向的元素在nums中第k1大
+            if (k1 == k) {
+                return nums[pivotKeyPointer];
+            }
+
+            if (k1 > k) {
+                start = pivotKeyPointer + 1;
+            } else {
+                end = pivotKeyPointer - 1;
+            }
+        }
+    }
+
+    private int oneQuickSort(int start, int end, int[] nums) {
+        int pivotKey  = nums[start];
+
+        while (start < end) {
+            while (start < end && nums[end] >= pivotKey) {
+                end--;
+            }
+            if (start < end) {
+                nums[start++] = nums[end];
+            }
+
+            while (start < end && nums[start] < pivotKey) {
+                start++;
+            }
+            if (start < end) {
+                nums[end--] = nums[start];
+            }
+        }
+        nums[start] = pivotKey;
+
+        return start;
+    }
+
+    //---------------------- 5. kth-largest-element end-----------------------------
 
 
 }
