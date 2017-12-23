@@ -187,8 +187,10 @@ public class Solution {
             int min = ret.get(nPointer[0]) * primes[0];
             for (int i = 0; i < primes.length; i++) {
                 int uglyNum = ret.get(nPointer[i]) * primes[i];
-                min = Math.min(min, uglyNum);
-                if (uglyNum == min) {
+                if (min == uglyNum) {
+                    temp.add(i);
+                } else if (min > uglyNum){
+                    min = uglyNum;
                     temp.clear();
                     temp.add(i);
                 }
