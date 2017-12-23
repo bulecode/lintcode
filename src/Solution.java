@@ -178,25 +178,29 @@ public class Solution {
         List<Integer> ret = new LinkedList<>();
         ret.add(1);
 
+        //每个质因子当前 乘以丑数的位置
         int[] nPointer = new int[primes.length];
 
         while (ret.size() < n) {
-            int[] temp = new int[primes.length];
-            int min = Integer.MAX_VALUE;
+            //记录新丑数产生时是nPointer中的哪个位置产生的 可以有多个
+            List<Integer> temp = new LinkedList<>();
+            int min = ret.get(nPointer[0]) * primes[0];
             for (int i = 0; i < primes.length; i++) {
-                temp[i] = ret.get(nPointer[i]) * primes[i];
-                min = Math.min(min, temp[i]);
+                int uglyNum = ret.get(nPointer[i]) * primes[i];
+                min = Math.min(min, uglyNum);
+                if (uglyNum == min) {
+                    temp.clear();
+                    temp.add(i);
+                }
+            }
+            //temp 把产生新丑数的位置+1
+            for (Integer i : temp) {
+                nPointer[i] = nPointer[i] + 1;
             }
 
             if (min != ret.get(ret.size() - 1)) {
                 ret.add(min);
             }
-            for (int i = 0; i < primes.length; i++) {
-                if (temp[i] == min) {
-                    nPointer[i] = nPointer[i] + 1;
-                }
-            }
-
         }
 
         return ret.get(n - 1);
