@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Solution {
         System.out.println(s.isUgly(1));
         System.out.println(s.nthSuperUglyNumber(6,new int[]{2,3,5}));
         System.out.println(s.kthLargestElement(3,new int[]{9,3,2,4,8}));
+        System.out.println(Arrays.toString(s.mergeSortedArray(new int[]{1}, new int[]{1})));
     }
 
 
@@ -264,5 +266,36 @@ public class Solution {
 
     //---------------------- 5. kth-largest-element end-----------------------------
 
+    //---------------------- 5. merge-two-sorted-arrays start-----------------------------
+    /*
+     * @param A: sorted integer array A
+     * @param B: sorted integer array B
+     * @return: A new sorted integer array
+     */
+    public int[] mergeSortedArray(int[] A, int[] B) {
+        int[] ret = new int[A.length + B.length];
 
+        int aPointer = 0;
+        int bPointer = 0;
+
+        for (int i = 0; i < ret.length; i++) {
+            if (aPointer == A.length){
+                System.arraycopy(B, bPointer, ret, aPointer + bPointer , B.length - bPointer );
+                return ret;
+            }
+            if (bPointer == B.length) {
+                System.arraycopy(A, aPointer, ret, aPointer + bPointer , A.length - aPointer);
+                return ret;
+            }
+
+            ret[i] = Math.min(A[aPointer], B[bPointer]);
+            if (ret[i] == A[aPointer]) {
+                aPointer++;
+            } else {
+                bPointer++;
+            }
+        }
+        return ret;
+    }
+    //---------------------- 5. merge-two-sorted-arrays end-----------------------------
 }
