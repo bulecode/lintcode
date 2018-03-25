@@ -29,10 +29,18 @@ public class TreeTest {
         TreeAlgorithm.prevOrder(root);
         System.out.println("");
         TreeAlgorithm.preOrder1(root);
+        System.out.println("");
+        TreeAlgorithm.preOrder2(root);
         System.out.println("\n---------------------");
         TreeAlgorithm.inOrder(root);
         System.out.println("");
         TreeAlgorithm.inOrder1(root);
+        System.out.println("\n---------------------");
+        TreeAlgorithm.posOrder(root);
+        System.out.println("");
+        TreeAlgorithm.posOrder1(root);
+        System.out.println("");
+        TreeAlgorithm.posOrder2(root);
     }
 
 
